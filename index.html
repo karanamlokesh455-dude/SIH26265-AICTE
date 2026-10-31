@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AICTE | Security Deposit & FDR Management</title>
+<style>
+:root{--navy:#12345a;--blue:#1769aa;--sky:#eaf3fb;--bg:#f4f7fb;--ink:#243447;--muted:#718096;--line:#e1e8f0;--green:#16805d;--orange:#b86a12;--red:#b33b45}
+*{box-sizing:border-box}body{margin:0;font:14px/1.5 "Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(110deg,#0e2c50,#1a548b);color:white;padding:16px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:3;box-shadow:0 3px 12px #09213b22}
+.logo{width:45px;height:45px;border-radius:50%;background:#fff;color:#154b7b;display:grid;place-items:center;font-weight:800;font-size:12px;border:2px solid #c7e2fa}
+.brand strong{display:block;font-size:17px;letter-spacing:.2px}.brand small{opacity:.8;font-size:11px}
+.header-right{margin-left:auto;text-align:right;font-size:12px}.header-right b{display:block;font-size:13px}
+.shell{display:flex;min-height:calc(100vh - 77px)}aside{width:230px;background:white;border-right:1px solid var(--line);padding:18px 12px;flex-shrink:0}
+.navlabel{font-size:10px;font-weight:800;color:#93a1b2;letter-spacing:1.2px;padding:8px 12px}
+nav button{width:100%;border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:8px;color:#526276;font-weight:600;cursor:pointer;margin:2px 0}
+nav button:hover,nav button.active{background:var(--sky);color:var(--blue)}nav button span{display:inline-block;width:25px}
+main{padding:25px;flex:1;min-width:0;max-width:1500px;margin:auto}
+.page{display:none}.page.active{display:block}
+.pagehead{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:22px}.pagehead h1{margin:0;font-size:25px;color:#17395e}.pagehead p{margin:5px 0;color:var(--muted)}
+.btn{border:1px solid #cbd8e5;background:white;padding:9px 14px;border-radius:7px;color:#35516e;font-weight:650;cursor:pointer}.btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn:hover{filter:brightness(.97)}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}.stat{background:white;border:1px solid var(--line);border-radius:12px;padding:17px}.stat .label{color:var(--muted);font-size:12px;font-weight:600}.stat strong{display:block;font-size:24px;color:#193d63;margin:8px 0}.stat small{color:var(--muted)}.stat .icon{float:right;background:#e9f3fc;color:#1769aa;border-radius:9px;padding:8px}
+.panel{background:white;border:1px solid var(--line);border-radius:12px;margin-bottom:18px;overflow:hidden}.panelhead{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panelhead h3{margin:0;font-size:15px;color:#234568}.panelbody{padding:18px}
+.split{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}th{text-align:left;background:#f7f9fc;color:#718096;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:12px 10px}td{padding:12px 10px;border-top:1px solid #edf1f5}tbody tr:hover{background:#f9fbfd}
+.badge{padding:4px 8px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}.green{background:#e4f5ee;color:#11714f}.yellow{background:#fff2d9;color:#93600c}.red{background:#fde8e9;color:#a32c35}.bluebadge{background:#e7f1fc;color:#1b609b}
+.search{padding:9px 12px;border:1px solid #d5e0eb;border-radius:7px;min-width:190px;outline-color:#80b5e2}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.field label{display:block;font-size:12px;color:#536579;font-weight:700;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #d5e0eb;border-radius:7px;padding:10px;background:#fff;font:inherit}.field textarea{min-height:75px}.field.full{grid-column:1/-1}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.notice{background:#fff7e6;border:1px solid #f5dfb7;color:#80580e;padding:12px 14px;border-radius:8px;margin-bottom:16px}
+.empty{padding:30px;text-align:center;color:#94a1b0}
+footer{text-align:center;color:#94a1b0;font-size:11px;padding:20px}
+@media(max-width:900px){aside{width:190px}.cards{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}main{padding:16px}}
+@media(max-width:600px){header{padding:12px}.header-right{display:none}.shell{display:block}aside{width:100%;padding:8px;border-right:0;border-bottom:1px solid var(--line)}nav{display:flex;overflow:auto}nav button{white-space:nowrap;width:auto;padding:8px 10px}nav button span{width:auto;margin-right:5px}.navlabel{display:none}main{padding:13px}.pagehead h1{font-size:21px}.cards{gap:9px}.stat{padding:12px}.stat strong{font-size:19px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.search{min-width:0;width:100%}.panelbody{overflow-x:auto}}
+
+.login-screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0e2c50 0%,#1a548b 55%,#eaf3fb 55%,#f4f7fb 100%)}
+.login-card{width:min(440px,100%);background:#fff;border:1px solid #dbe5ef;border-radius:18px;box-shadow:0 24px 70px #061a3440;overflow:hidden}
+.login-top{padding:25px 28px 20px;background:#f7fbff;border-bottom:1px solid #e4edf5;text-align:center}
+.login-seal{width:62px;height:62px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid #c7e2fa;color:#154b7b;font-weight:900;font-size:15px}
+.login-top h1{font-size:20px;color:#17395e;margin:0}.login-top p{font-size:12px;color:#718096;margin:6px 0 0}
+.login-body{padding:25px 28px}.login-body h2{font-size:18px;margin:0 0 5px;color:#233f60}.login-body .sub{font-size:12px;color:#718096;margin:0 0 20px}
+.login-field{margin-bottom:15px}.login-field label{display:block;font-size:12px;font-weight:700;color:#536579;margin-bottom:7px}.login-field input{width:100%;padding:12px;border:1px solid #d5e0eb;border-radius:8px;font:inherit;outline-color:#80b5e2}
+.password-wrap{display:flex;gap:7px}.password-wrap input{flex:1;min-width:0}.password-wrap button{border:1px solid #d5e0eb;background:#f8fafc;border-radius:8px;padding:0 12px;cursor:pointer;color:#35516e}
+.login-btn{width:100%;border:0;border-radius:8px;background:#1769aa;color:#fff;padding:12px;font:inherit;font-weight:700;cursor:pointer;margin-top:4px}.login-btn:hover{background:#12598f}
+.login-error{display:none;background:#fde8e9;color:#a32c35;border-radius:7px;padding:9px 11px;font-size:12px;margin:0 0 12px}
+.demo-cred{margin-top:17px;padding:11px;background:#f4f8fc;border:1px dashed #d3dfeb;border-radius:8px;color:#617286;font-size:11px}.login-bottom{text-align:center;color:#8a99aa;font-size:10px;padding:13px;border-top:1px solid #edf1f5}
+body.locked{overflow:hidden}
+@media(max-width:480px){.login-card{border-radius:13px}.login-top,.login-body{padding:21px}.login-screen{background:linear-gradient(145deg,#0e2c50 0%,#1a548b 38%,#f4f7fb 38%,#f4f7fb 100%)}}
+</style>
+</head>
+<body class="locked">
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-top">
+      <div class="login-seal">AICTE</div>
+      <h1>Security Deposit & FDR Portal</h1>
+      <p>All India Council for Technical Education</p>
+    </div>
+    <div class="login-body">
+      <h2>Official Portal Sign In</h2>
+      <p class="sub">Sign in to access institution deposit records and FDR monitoring.</p>
+      <div class="login-error" id="loginError">Invalid username or password. Please try again.</div>
+      <form id="loginForm">
+        <div class="login-field"><label for="loginUser">Username</label><input id="loginUser" autocomplete="username" required placeholder="Enter demo username"></div>
+        <div class="login-field"><label for="loginPass">Password</label><div class="password-wrap"><input id="loginPass" type="password" autocomplete="current-password" required placeholder="Enter password"><button type="button" id="togglePass">Show</button></div></div>
+        <button class="login-btn" type="submit">Sign In →</button>
+      </form>
+      <div class="demo-cred"><b>Demo credentials</b><br>Username: <code>admin</code> &nbsp; Password: <code>AICTE@123</code></div>
+    </div>
+    <div class="login-bottom">Authorized access only · Demonstration prototype · Not connected to AICTE systems</div>
+  </div>
+</div>
+
+<header><div class="logo">AICTE</div><div class="brand"><strong>Security Deposit & FDR Management Portal</strong><small>All India Council for Technical Education · Prototype</small></div><div class="header-right"><b id="signedInLabel">Administrator | Demo Account</b>Centralized Institution Finance Monitoring<br><button class="btn" style="margin-top:5px;padding:4px 9px;font-size:11px" onclick="logout()">Sign out</button></div></header>
+<div class="shell">
+<aside><div class="navlabel">MAIN MENU</div><nav>
+<button class="active" data-page="dashboard"><span>▦</span> Dashboard</button>
+<button data-page="deposits"><span>▤</span> Security Deposits</button>
+<button data-page="fdr"><span>▣</span> FDR Management</button>
+<button data-page="register"><span>＋</span> Register Deposit / FDR</button>
+<button data-page="reports"><span>▥</span> Reports & Analytics</button>
+</nav><div class="navlabel" style="margin-top:22px">SYSTEM</div><nav><button data-page="settings"><span>⚙</span> Settings</button></nav></aside>
+<main>
+<section class="page active" id="dashboard">
+<div class="pagehead"><div><h1>Dashboard Overview</h1><p>Monitor security deposits and fixed deposit receipts across institutions.</p></div><button class="btn primary" onclick="showPage('register')">＋ Register New Record</button></div>
+<div class="cards">
+<div class="stat"><span class="icon">₹</span><div class="label">Total Deposit Value</div><strong id="totalValue">₹ 4.82 Cr</strong><small>Across all registered records</small></div>
+<div class="stat"><span class="icon">▣</span><div class="label">Active FDRs</div><strong id="activeFdr">128</strong><small>Currently valid</small></div>
+<div class="stat"><span class="icon">◷</span><div class="label">Maturing in 30 Days</div><strong id="maturing">12</strong><small>Requires attention</small></div>
+<div class="stat"><span class="icon">✓</span><div class="label">Released / Returned</div><strong id="released">36</strong><small>Completed records</small></div>
+</div>
+<div class="notice">⚠ <b>Attention required:</b> 12 FDRs are due to mature within the next 30 days. Review renewal or release actions.</div>
+<div class="split">
+<div class="panel"><div class="panelhead"><h3>Recently Updated Records</h3><button class="btn" onclick="showPage('deposits')">View all →</button></div><div class="panelbody"><table><thead><tr><th>Record ID</th><th>Institution</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody id="recentRows"></tbody></table></div></div>
+<div class="panel"><div class="panelhead"><h3>Upcoming Maturities</h3><span class="badge yellow">Next 30 days</span></div><div class="panelbody"><table><thead><tr><th>FDR Number</th><th>Institution</th><th>Maturity</th></tr></thead><tbody id="maturityRows"></tbody></table></div></div>
+</div>
+<div class="panel"><div class="panelhead"><h3>Quick Actions</h3></div><div class="panelbody" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" onclick="showPage('register')">＋ Register Security Deposit / FDR</button><button class="btn" onclick="showPage('fdr')">▣ Review FDRs</button><button class="btn" onclick="showPage('reports')">▥ Generate Report</button></div></div>
+</section>
+
+<section class="page" id="deposits">
+<div class="pagehead"><div><h1>Security Deposit Records</h1><p>Search and monitor institution-wise deposit records.</p></div><button class="btn primary" onclick="showPage('register')">＋ Add Record</button></div>
+<div class="panel"><div class="panelhead"><h3>All Deposit & FDR Records</h3><input class="search" id="recordSearch" placeholder="Search institution / ID…" oninput="renderTable()"></div><div class="panelbody"><table><thead><tr><th>Record ID</th><th>Institution</th><th>State</th><th>Type</th><th>Amount</th><th>Deposit Date</th><th>Expiry / Maturity</th><th>Status</th></tr></thead><tbody id="allRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="fdr">
+<div class="pagehead"><div><h1>FDR Management</h1><p>Track fixed deposit receipts, maturity dates, and renewal status.</p></div><button class="btn primary" onclick="showPage('register')">＋ Register FDR</button></div>
+<div class="cards"><div class="stat"><div class="label">Total FDR Principal</div><strong>₹ 3.16 Cr</strong><small>Demo figures</small></div><div class="stat"><div class="label">FDRs Active</div><strong>128</strong><small>Valid receipts</small></div><div class="stat"><div class="label">Due within 30 days</div><strong>12</strong><small class="yellow">Action recommended</small></div><div class="stat"><div class="label">Renewal requested</div><strong>04</strong><small>Awaiting review</small></div></div>
+<div class="panel"><div class="panelhead"><h3>FDR Register</h3><input class="search" id="fdrSearch" placeholder="Search FDR / bank…" oninput="renderFdr()"></div><div class="panelbody"><table><thead><tr><th>FDR Number</th><th>Institution</th><th>Issuing Bank</th><th>Principal</th><th>Issue Date</th><th>Maturity Date</th><th>Action</th></tr></thead><tbody id="fdrRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="register">
+<div class="pagehead"><div><h1>Register Security Deposit / FDR</h1><p>Enter the institution and instrument details to create a new record.</p></div></div>
+<div class="panel"><div class="panelhead"><h3>New Record Details</h3><span class="badge bluebadge">Demo form</span></div><div class="panelbody">
+<form id="recordForm"><div class="formgrid">
+<div class="field"><label>Institution Name *</label><input required id="institution" placeholder="e.g. ABC Institute of Technology"></div>
+<div class="field"><label>AICTE Permanent ID / Institution ID *</label><input required id="instid" placeholder="e.g. 1-1234567890"></div>
+<div class="field"><label>State / UT *</label><select required id="state"><option value="">Select state</option><option>Andhra Pradesh</option><option>Telangana</option><option>Karnataka</option><option>Tamil Nadu</option><option>Maharashtra</option><option>Delhi</option><option>Uttar Pradesh</option><option>Other</option></select></div>
+<div class="field"><label>Instrument Type *</label><select required id="type"><option>Fixed Deposit Receipt (FDR)</option><option>Security Deposit</option><option>Bank Guarantee</option></select></div>
+<div class="field"><label>Amount (₹) *</label><input required type="number" min="1" id="amount" placeholder="Enter amount"></div>
+<div class="field"><label>Bank / Financial Institution *</label><input required id="bank" placeholder="Bank name"></div>
+<div class="field"><label>Instrument / FDR Number *</label><input required id="fdrnum" placeholder="Reference number"></div>
+<div class="field"><label>Issue / Deposit Date *</label><input required type="date" id="issued"></div>
+<div class="field"><label>Maturity / Expiry Date *</label><input required type="date" id="maturity"></div>
+<div class="field"><label>Current Status</label><select id="status"><option>Under Verification</option><option>Active</option><option>Renewal Pending</option><option>Released</option></select></div>
+<div class="field"><label>Responsible Bureau / Cell</label><select id="bureau"><option>Approval Bureau</option><option>Regional Office</option><option>Finance Cell</option><option>Administration</option><option>Other</option></select></div>
+<div class="field full"><label>Remarks</label><textarea id="remarks" placeholder="Additional notes (optional)"></textarea></div>
+</div><div class="actions"><button type="reset" class="btn">Clear Form</button><button class="btn primary" type="submit">Save Record</button></div></form>
+</div></div>
+<div class="notice">This is a front-end prototype. Submitted records are stored in this browser session only and are not sent to AICTE servers.</div>
+</section>
+
+<section class="page" id="reports">
+<div class="pagehead"><div><h1>Reports & Analytics</h1><p>Summary of registered instruments for administrative review.</p></div><button class="btn primary" onclick="exportCSV()">⇩ Export CSV</button></div>
+<div class="cards"><div class="stat"><div class="label">Registered Records</div><strong id="reportCount">164</strong><small>Security deposits + FDRs</small></div><div class="stat"><div class="label">Total Instrument Value</div><strong>₹ 4.82 Cr</strong><small>Sample aggregate</small></div><div class="stat"><div class="label">Active / Verified</div><strong>128</strong><small>Instruments in force</small></div><div class="stat"><div class="label">Pending Verification</div><strong id="pendingCount">08</strong><small>Need review</small></div></div>
+<div class="panel"><div class="panelhead"><h3>Status Distribution</h3></div><div class="panelbody"><div style="display:flex;align-items:center;gap:14px;margin:12px 0"><b style="width:140px">Active</b><div style="height:15px;background:#e9eff5;flex:1;border-radius:20px;overflow:hidden"><div style="height:100%;width:78%;background:#2785bc"></div></div><b>78%</b></div><div style="display:flex;align-items:center;gap:14px;margin:12px 0"><b style="width:140px">Under Verification</b><div style="height:15px;background:#e9eff5;flex:1;border-radius:20px;overflow:hidden"><div style="height:100%;width:8%;background:#e8a63d"></div></div><b>8%</b></div><div style="display:flex;align-items:center;gap:14px;margin:12px 0"><b style="width:140px">Renewal Pending</b><div style="height:15px;background:#e9eff5;flex:1;border-radius:20px;overflow:hidden"><div style="height:100%;width:7%;background:#8b74c8"></div></div><b>7%</b></div><div style="display:flex;align-items:center;gap:14px;margin:12px 0"><b style="width:140px">Released</b><div style="height:15px;background:#e9eff5;flex:1;border-radius:20px;overflow:hidden"><div style="height:100%;width:7%;background:#25a07b"></div></div><b>7%</b></div></div></div>
+<div class="panel"><div class="panelhead"><h3>Data Export</h3></div><div class="panelbody"><p>Export current records as a CSV file for review in Excel or other spreadsheet software.</p><button class="btn primary" onclick="exportCSV()">Download CSV Report</button></div></div>
+</section>
+
+<section class="page" id="settings">
+<div class="pagehead"><div><h1>Portal Settings</h1><p>Prototype configuration and information.</p></div></div>
+<div class="panel"><div class="panelhead"><h3>About this prototype</h3></div><div class="panelbody"><p><b>Portal:</b> AICTE Security Deposit & FDR Management</p><p><b>Version:</b> 1.0 — Demonstration prototype</p><p><b>Environment:</b> HTML, CSS, JavaScript (no installation required)</p><p><b>Data:</b> Fictional sample records for presentation. No real financial or institutional data is included.</p><p><b>Security note:</b> A production implementation requires official authentication, role-based access, server-side validation, secure document storage, audit logs, and an authorized database.</p></div></div>
+</section>
+<footer>AICTE · Security Deposit & FDR Management Portal · Prototype for demonstration only</footer>
+</main></div>
+<script>
+
+const DEMO_USERNAME="admin", DEMO_PASSWORD="AICTE@123";
+function enterPortal(){document.getElementById("loginScreen").style.display="none";document.body.classList.remove("locked");}
+function logout(){document.getElementById("loginScreen").style.display="flex";document.body.classList.add("locked");document.getElementById("loginForm").reset();document.getElementById("loginError").style.display="none";}
+document.getElementById("togglePass").addEventListener("click",()=>{let f=document.getElementById("loginPass"),b=document.getElementById("togglePass");f.type=f.type==="password"?"text":"password";b.textContent=f.type==="password"?"Show":"Hide";});
+document.getElementById("loginForm").addEventListener("submit",e=>{e.preventDefault();let u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;if(u===DEMO_USERNAME&&p===DEMO_PASSWORD){document.getElementById("loginError").style.display="none";enterPortal();}else{document.getElementById("loginError").style.display="block";}});
+
+let records=[
+{id:"SD-2026-001",institution:"Sri Venkateswara Institute of Technology",instid:"1-1234567890",state:"Andhra Pradesh",type:"Fixed Deposit Receipt (FDR)",amount:1250000,bank:"State Bank of India",fdr:"SBI-FDR-89012",issued:"2025-04-12",maturity:"2027-04-12",status:"Active",bureau:"Finance Cell"},
+{id:"SD-2026-002",institution:"National College of Engineering",instid:"1-9876543210",state:"Telangana",type:"Security Deposit",amount:850000,bank:"Canara Bank",fdr:"CB-SD-45621",issued:"2024-09-05",maturity:"2026-11-15",status:"Renewal Pending",bureau:"Approval Bureau"},
+{id:"SD-2026-003",institution:"Pioneer Technical Campus",instid:"1-1122334455",state:"Karnataka",type:"Fixed Deposit Receipt (FDR)",amount:2000000,bank:"HDFC Bank",fdr:"HDFC-77103",issued:"2025-06-20",maturity:"2026-11-08",status:"Active",bureau:"Regional Office"},
+{id:"SD-2026-004",institution:"Deccan School of Technology",instid:"1-2233445566",state:"Telangana",type:"Bank Guarantee",amount:500000,bank:"Bank of Baroda",fdr:"BOB-BG-10298",issued:"2025-01-10",maturity:"2027-01-10",status:"Under Verification",bureau:"Administration"},
+{id:"SD-2026-005",institution:"Eastern Institute of Applied Sciences",instid:"1-5566778899",state:"Andhra Pradesh",type:"Fixed Deposit Receipt (FDR)",amount:750000,bank:"Union Bank of India",fdr:"UBI-44109",issued:"2024-12-01",maturity:"2026-12-01",status:"Active",bureau:"Finance Cell"},
+{id:"SD-2026-006",institution:"Metro Polytechnic College",instid:"1-6677889900",state:"Maharashtra",type:"Security Deposit",amount:425000,bank:"Punjab National Bank",fdr:"PNB-SD-98220",issued:"2024-07-14",maturity:"2025-07-14",status:"Released",bureau:"Regional Office"}
+];
+const money=n=>"₹ "+Number(n).toLocaleString("en-IN");
+const badge=s=>`<span class="badge ${s==="Active"?"green":s==="Released"?"bluebadge":s==="Under Verification"?"yellow":"red"}">${s}</span>`;
+function showPage(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===p));window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+function renderTable(){let q=(document.getElementById("recordSearch")?.value||"").toLowerCase();let list=records.filter(r=>(r.institution+r.id+r.instid+r.fdr+r.bank).toLowerCase().includes(q));document.getElementById("allRows").innerHTML=list.map(r=>`<tr><td><b>${r.id}</b></td><td>${r.institution}</td><td>${r.state}</td><td>${r.type.replace("Fixed Deposit Receipt (FDR)","FDR")}</td><td>${money(r.amount)}</td><td>${r.issued}</td><td>${r.maturity}</td><td>${badge(r.status)}</td></tr>`).join("")||'<tr><td colspan="8" class="empty">No matching records</td></tr>'}
+function renderFdr(){let q=(document.getElementById("fdrSearch")?.value||"").toLowerCase();let list=records.filter(r=>r.type.includes("FDR")&&(r.fdr+r.institution+r.bank).toLowerCase().includes(q));document.getElementById("fdrRows").innerHTML=list.map(r=>`<tr><td><b>${r.fdr}</b></td><td>${r.institution}</td><td>${r.bank}</td><td>${money(r.amount)}</td><td>${r.issued}</td><td>${r.maturity}</td><td><button class="btn" onclick="alert('Demo action: review ${r.fdr} for renewal or release.')">Review</button></td></tr>`).join("")||'<tr><td colspan="7" class="empty">No matching FDRs</td></tr>'}
+function renderRecent(){document.getElementById("recentRows").innerHTML=records.slice(0,4).map(r=>`<tr><td><b>${r.id}</b></td><td>${r.institution}</td><td>${r.type.includes("FDR")?"FDR":r.type}</td><td>${money(r.amount)}</td><td>${badge(r.status)}</td></tr>`).join("");document.getElementById("maturityRows").innerHTML=records.slice(1,4).map(r=>`<tr><td>${r.fdr}</td><td>${r.institution.split(" ").slice(0,3).join(" ")}</td><td>${r.maturity}</td></tr>`).join("")}
+document.getElementById("recordForm").addEventListener("submit",e=>{e.preventDefault();let r={id:"SD-2026-"+String(records.length+1).padStart(3,"0"),institution:institution.value,instid:instid.value,state:state.value,type:type.value,amount:Number(amount.value),bank:bank.value,fdr:fdrnum.value,issued:issued.value,maturity:maturity.value,status:status.value,bureau:bureau.value};records.unshift(r);alert("Record registered successfully! Reference ID: "+r.id+" (demo only)");e.target.reset();renderTable();renderFdr();renderRecent();showPage("deposits")});
+function exportCSV(){let rows=[["Record ID","Institution","Institution ID","State","Type","Amount INR","Bank","Instrument Number","Issue Date","Maturity Date","Status","Responsible Bureau"],...records.map(r=>[r.id,r.institution,r.instid,r.state,r.type,r.amount,r.bank,r.fdr,r.issued,r.maturity,r.status,r.bureau])];let csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(",")).join("\n");let blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="AICTE_Security_Deposit_FDR_Report.csv";a.click();URL.revokeObjectURL(a.href)}
+renderRecent();renderTable();renderFdr();
+</script>
+</body></html>
